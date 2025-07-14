@@ -29,6 +29,7 @@
     <button onclick="mostrar('tabela')">Tabela Periódica</button>
     <button onclick="mostrar('horarios')">Horários</button>
     <button onclick="mostrar('calculadora')">Calculadora</button>
+    <button onclick="mostrar('emergencia')">Números de Emergência</button>
   </div>
 
   <div class="conteudo">
@@ -88,9 +89,18 @@
       </div>
     </div>
 
+    <div id="emergencia" class="esconder">
+      <h1>Números de Emergência</h1>
+      <ul>
+        <li><strong>190</strong> - Polícia Militar</li>
+        <li><strong>192</strong> - SAMU (Serviço de Atendimento Móvel de Urgência)</li>
+        <li><strong>193</strong> - Corpo de Bombeiros</li>
+      </ul>
+    </div>
+
     <script>
       function mostrar(id) {
-        ['feriados', 'tabela', 'horarios', 'calculadora'].forEach(sec => {
+        ['feriados', 'tabela', 'horarios', 'calculadora', 'emergencia'].forEach(sec => {
           document.getElementById(sec).className = sec === id ? 'mostrar' : 'esconder';
         });
       }
@@ -135,4 +145,3 @@
   </div>
 </body>
 </html>
-
