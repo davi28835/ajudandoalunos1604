@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Menu Lateral com Tabela Periódica e Horários</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    display: flex;
+    height: 100vh;
+    overflow: hidden;
+  }
+  nav {
+    width: 220px;
+    background-color: #222;
+    color: white;
+    display: flex;
+    flex-direction: column;
+  }
+  nav button {
+    background: none;
+    border: none;
+    color: white;
+    padding: 18px 20px;
+    cursor: pointer;
+    text-align: left;
+    font-size: 16px;
+    border-bottom: 1px solid #444;
+    transition: background-color 0.3s ease;
+  }
+  nav button:hover, nav button.active {
+    background-color: #444;
+  }
+  main {
+    flex-grow: 1;
+    padding: 15px;
+    overflow-y: auto;
+    background: #f0f0f0;
+  }
+  section {
+    display: none;
+  }
+  section.active {
+    display: block;
+  }
+  /* Tabela periódica grid */
+  .tabela-periodica {
+    display: grid;
+    grid-template-columns: repeat(18, 70px);
+    grid-auto-rows: 90px;
+    gap: 6px;
+    justify-content: start;
+  }
+  .elemento {
+    background: white;
+    border: 1px solid #aaa;
+    border-radius: 6px;
+    text-align: center;
+    padding: 6px 4px;
+    box-shadow: 1px 1px 3px #ccc;
+    font-size: 14px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    user-select: none;
+  }
+  .numero {
+    font-weight: bold;
+    font-size: 12px;
+    color: #555;
+  }
+  .simbolo {
+    font-weight: bold;
+    font-size: 26px;
+    margin: 5px 0 2px 0;
+    color: #222;
+  }
+  .nome {
+    font-size: 11px;
+    color: #444;
+  }
+  /* Horários tabela */
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    max-width: 600px;
+    background: white;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  }
+  th, td {
+    border: 1px solid #aaa;
+    padding: 8px 12px;
+    text-align: center;
+  }
+  th {
+    background-color: #222;
+    color: white;
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <button id="btn-feriados" class="active">Feriados</button>
+  <button id="btn-tabela">Tabela Periódica</button>
+  <button id="btn-horarios">Horários das Aulas</button>
+</nav>
+
+<main>
+  <section id="feriados" class="active">
+    <h2>Feriados Nacionais</h2>
+    <ul>
+      <li>03 e 04 de março: Carnaval (ponto facultativo)</li>
+      <li>18 de abril: Sexta-feira Santa</li>
+      <li>21 de abril: Tiradentes</li>
+      <li>01 de maio: Dia do Trabalhador</li>
+      <li>07 de setembro: Independência do Brasil</li>
+      <li>20 de novembro: Dia da Consciência Negra</li>
+    </ul>
+    <h3>Feriados Municipais (Rio de Janeiro)</h3>
+    <ul>
+      <li>23 de abril: Dia de São Jorge</li>
+      <li>19 de junho: Corpus Christi</li>
+      <li>08 de setembro: Nossa Senhora da Vitória</li>
+    </ul>
+    <h3>Datas Comemorativas</h3>
+    <ul>
+      <li>15 de outubro: Dia do Professor</li>
+    </ul>
+  </section>
+
+  <section id="tabela">
+    <h2>Tabela Periódica Completa (118 Elementos)</h2>
+    <div class="tabela-periodica" id="tabela-periodica">
+      <!-- Elementos serão inseridos aqui pelo JavaScript -->
+    </div>
+  </section>
+
+  <section id="horarios">
+    <h2>Horários das Aulas</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Dia</th>
+          <th>1ª Aula</th>
+          <th>2ª Aula</th>
+          <th>3ª Aula</th>
+          <th>4ª Aula</th>
+          <th>5ª Aula</th>
+          <th>6ª Aula</th>
+          <th>7ª Aula</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>2ª feira</td>
+          <td>Artes</td>
+          <td>Ciências</td>
+          <td>Geografia</td>
+          <td>Português</td>
+          <td>Inglês</td>
+          <td>Português</td>
+          <td>História</td>
+        </tr>
+        <tr>
+          <td>3ª feira</td>
+          <td>História</td>
+          <td>História</td>
+          <td>Matemática</td>
+          <td>Ed física</td>
+          <td>Ed física</td>
+          <td>Matemática</td>
+          <td>Português</td>
+        </tr>
+        <tr>
+          <td>4ª feira</td>
+          <td>Inglês</td>
+          <td>Arte</td>
+          <td>Matemática</td>
+          <td>Matemática</td>
+          <td>Ciências</td>
+          <td>Geografia</td>
+          <td>Geografia</td>
+        </tr>
+        <tr>
+          <td>5ª feira</td>
+          <td>Ciências</td>
+          <td>Ciências</td>
+          <td>Português</td>
+          <td>Reforço de português</td>
+          <td>Português</td>
+          <td>Projeto de vida</td>
+          <td>Projeto de vida</td>
+        </tr>
+        <tr>
+          <td>6ª feira</td>
+          <td>Inglês</td>
+          <td>Inglês</td>
+          <td>Ed física</td>
+          <td>Ciências</td>
+          <td>Matemática</td>
+          <td>Reforço de português</td>
+          <td>Reforço de português</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+</main>
+
+<script>
+  const buttons = document.querySelectorAll('nav button');
+  const sections = document.querySelectorAll('main section');
+
+  buttons.forEach(button => {
+    button.addEventListener('click', () => {
+      buttons.forEach(btn => btn.classList.remove('active'));
+      sections.forEach(sec => sec.classList.remove('active'));
+
+      button.classList.add('active');
+      const id = button.id.replace('btn-', '');
+      document.getElementById(id).classList.add('active');
+    });
+  });
+
+  // Dados dos 118 elementos: número, símbolo e nome completo
+  const elementos = [
+    [1, "H", "Hidrogênio"],
+    [2, "He", "Hélio"],
+    [3, "Li", "Lítio"],
+    [4, "Be", "Berílio"],
+    [5, "B", "Boro"],
+    [6, "C", "Carbono"],
+    [7, "N", "Nitrogênio"],
+    [8, "O", "Oxigênio"],
+    [9, "F", "Flúor"],
+    [10, "Ne", "Neônio"],
+    [11, "Na", "Sódio"],
+    [12, "Mg", "Magnésio"],
+    [13, "Al", "Alumínio"],
+    [14, "Si", "Silício"],
+    [15, "P", "Fósforo"],
+    [16, "S", "Enxofre"],
+    [17, "Cl", "Cloro"],
+    [18, "Ar", "Argônio"],
+    [19, "K", "Potássio"],
+    [20, "Ca", "Cálcio"],
+    [21, "Sc", "Escândio"],
+    [22, "Ti", "Titânio"],
+    [23, "V", "Vanádio"],
+    [24, "Cr", "Cromo"],
+    [25, "Mn", "Manganês"],
+    [26, "Fe", "Ferro"],
+    [27, "Co", "Cobalto"],
+    [28, "Ni", "Níquel"],
+    [29, "Cu", "Cobre"],
+    [30, "Zn", "Zinco"],
+    [31, "Ga", "Gálio"],
+    [32, "Ge", "Germânio"],
+    [33, "As", "Arsênio"],
+    [34, "Se", "Selênio"],
+    [35, "Br", "Bromo"],
+    [36, "Kr", "Criptônio"],
+    [37, "Rb", "Rubídio"],
+    [38, "Sr", "Estrôncio"],
+    [39, "Y", "Ítrio"],
+    [40, "Zr", "Zircônio"],
+    [41, "Nb", "Nióbio"],
+    [42, "Mo", "Molibdênio"],
+    [43, "Tc", "Tecnécio"],
+    [44, "Ru", "Rutênio"],
+    [45, "Rh", "Ródio"],
+    [46, "Pd", "Paládio"],
+    [47, "Ag", "Prata"],
+    [48, "Cd", "Cádmio"],
+    [49, "In", "Índio"],
+    [50, "Sn", "Estanho"],
+    [51, "Sb", "Antimônio"],
+    [52, "Te", "Telúrio"],
+    [53, "I", "Iodo"],
+    [54, "Xe", "Xenônio"],
+    [55, "Cs", "Césio"],
+    [56, "Ba", "Bário"],
+    [57, "La", "Lantânio"],
+    [58, "Ce", "Cério"],
+    [59, "Pr", "Praseodímio"],
+    [60, "Nd", "Neodímio"],
+    [61, "Pm", "Promécio"],
+    [62, "Sm", "Samário"],
+    [63, "Eu", "Európio"],
+    [64, "Gd", "Gadolínio"],
+    [65, "Tb", "Térbio"],
+    [66, "Dy", "Disprósio"],
+    [67, "Ho", "Hólmio"],
+    [68, "Er", "Érbio"],
+    [69, "Tm", "Tulio"],
+    [70, "Yb", "Itérbio"],
+    [71, "Lu", "Lutécio"],
+    [72, "Hf", "Háfnio"],
+    [73, "Ta", "Tântalo"],
+    [74, "W", "Tungstênio"],
+    [75, "Re", "Rênio"],
+    [76, "Os", "Ósmio"],
+    [77, "Ir", "Irídio"],
+    [78, "Pt", "Platina"],
+    [79, "Au", "Ouro"],
+    [80, "Hg", "Mercúrio"],
+    [81, "Tl", "Tálio"],
+    [82, "Pb", "Chumbo"],
+    [83, "Bi", "Bismuto"],
+    [84, "Po", "Polônio"],
+    [85, "At", "Astato"],
+    [86, "Rn", "Radônio"],
+    [87, "Fr", "Frâncio"],
+    [88, "Ra", "Rádio"],
+    [89, "Ac", "Actínio"],
+    [90, "Th", "Tório"],
+    [91, "Pa", "Protactínio"],
+    [92, "U", "Urânio"],
+    [93, "Np", "Neptúnio"],
+    [94, "Pu", "Plutônio"],
+    [95, "Am", "Amerício"],
+    [96, "Cm", "Cúrio"],
+    [97, "Bk", "Berquélio"],
+    [98, "Cf", "Califórnio"],
+    [99, "Es", "Einstênio"],
+    [100, "Fm", "Férmio"],
+    [101, "Md", "Mendelévio"],
+    [102, "No", "Nobélio"],
+    [103, "Lr", "Laurêncio"],
+    [104, "Rf", "Rutherfórdio"],
+    [105, "Db", "Dúbnio"],
+    [106, "Sg", "Seabórgio"],
+    [107, "Bh", "Bóhrio"],
+    [108, "Hs", "Hássio"],
+    [109, "Mt", "Meitnério"],
+    [110, "Ds", "Darmstádtio"],
+    [111, "Rg", "Roentgênio"],
+    [112, "Cn", "Copernício"],
+    [113, "Nh", "Nihônio"],
+    [114, "Fl", "Fleróvio"],
+    [115, "Mc", "Moscóvio"],
+    [116, "Lv", "Livermório"],
+    [117, "Ts", "Tenessino"],
+    [118, "Og", "Oganessônio"]
+  ];
+
+  // Para posicionar os elementos na tabela periódica, precisamos definir o grid-row e grid-column de cada elemento.
+  // A tabela periódica tem posições específicas para cada elemento.
+  // Para simplificar, vamos usar um array de objetos com as posições. (baseado na tabela periódica padrão)
+
+  const posicoes = {
+    1: {r:1, c:1}, 2: {r:1, c:18},
+    3: {r:2, c:1}, 4: {r:2, c:2}, 5: {r:2, c:13}, 6: {r:2, c:14}, 7: {r:2, c:15}, 8: {r:2, c:16}, 9: {r:2, c:17}, 10: {r:2, c:18},
+    11: {r:3, c:1}, 12: {r:3, c:2}, 13: {r:3, c:13}, 14: {r:3, c:14}, 15: {r:3, c:15}, 16: {r:3, c:16}, 17: {r:3, c:17}, 18: {r:3, c:18},
+    19: {r:4, c:1}, 20: {r:4, c:2}, 21: {r:4, c:3}, 22: {r:4, c:4}, 23: {r:4, c:5}, 24: {r:4, c:6}, 25: {r:4, c:7}, 26: {r:4, c:8}, 27: {r:4, c:9}, 28: {r:4, c:10}, 29: {r:4, c:11}, 30: {r:4, c:12}, 31: {r:4, c:13}, 32: {r:4, c:14}, 33: {r:4, c:15}, 34: {r:4, c:16}, 35: {r:4, c:17}, 36: {r:4, c:18},
+    37: {r:5, c:1}, 38: {r:5, c:2}, 39: {r:5, c:3}, 40: {r:5, c:4}, 41: {r:5, c:5}, 42: {r:5, c:6}, 43: {r:5, c:7}, 44: {r:5, c:8}, 45: {r:5, c:9}, 46: {r:5, c:10}, 47: {r:5, c:11}, 48: {r:5, c:12}, 49: {r:5, c:13}, 50: {r:5, c:14}, 51: {r:5, c:15}, 52: {r:5, c:16}, 53: {r:5, c:17}, 54: {r:5, c:18},
+    55: {r:6, c:1}, 56: {r:6, c:2}, 57: {r:9, c:4}, 58: {r:9, c:5}, 59: {r:9, c:6}, 60: {r:9, c:7}, 61: {r:9, c:8}, 62: {r:9, c:9}, 63: {r:9, c:10}, 64: {r:9, c:11}, 65: {r:9, c:12}, 66: {r:9, c:13}, 67: {r:9, c:14}, 68: {r:9, c:15}, 69: {r:9, c:16}, 70: {r:9, c:17}, 71: {r:9, c:18},
+    72: {r:6, c:4}, 73: {r:6, c:5}, 74: {r:6, c:6}, 75: {r:6, c:7}, 76: {r:6, c:8}, 77: {r:6, c:9}, 78: {r:6, c:10}, 79: {r:6, c:11}, 80: {r:6, c:12}, 81: {r:6, c:13}, 82: {r:6, c:14}, 83: {r:6, c:15}, 84: {r:6, c:16}, 85: {r:6, c:17}, 86: {r:6, c:18},
+    87: {r:7, c:1}, 88: {r:7, c:2}, 89: {r:10, c:4}, 90: {r:10, c:5}, 91: {r:10, c:6}, 92: {r:10, c:7}, 93: {r:10, c:8}, 94: {r:10, c:9}, 95: {r:10, c:10}, 96: {r:10, c:11}, 97: {r:10, c:12}, 98: {r:10, c:13}, 99: {r:10, c:14}, 100: {r:10, c:15}, 101: {r:10, c:16}, 102: {r:10, c:17}, 103: {r:10, c:18},
+    104: {r:7, c:4}, 105: {r:7, c:5}, 106: {r:7, c:6}, 107: {r:7, c:7}, 108: {r:7, c:8}, 109: {r:7, c:9}, 110: {r:7, c:10}, 111: {r:7, c:11}, 112: {r:7, c:12}, 113: {r:7, c:13}, 114: {r:7, c:14}, 115: {r:7, c:15}, 116: {r:7, c:16}, 117: {r:7, c:17}, 118: {r:7, c:18}
+  };
+
+  const container = document.getElementById('tabela-periodica');
+
+  elementos.forEach(el => {
+    const [num, simbolo, nome] = el;
+    const pos = posicoes[num];
+    const div = document.createElement('div');
+    div.classList.add('elemento');
+    div.style.gridRow = pos.r;
+    div.style.gridColumn = pos.c;
+    div.innerHTML = `<div class="numero">${num}</div><div class="simbolo">${simbolo}</div><div class="nome">${nome}</div>`;
+    container.appendChild(div);
+  });
+
+</script>
+
+</body>
+</html>
