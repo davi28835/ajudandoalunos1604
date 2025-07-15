@@ -2,25 +2,162 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Site Escolar</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Site Escolar Completo</title>
   <style>
-    body { display: flex; margin: 0; font-family: Arial, sans-serif; }
-    .menu { width: 200px; background: #333; color: white; height: 100vh; display: flex; flex-direction: column; }
-    .menu button { background: none; border: none; color: white; padding: 15px; text-align: left; cursor: pointer; font-size: 16px; border-bottom: 1px solid #444; }
-    .menu button:hover { background: #444; }
-    .conteudo { flex: 1; padding: 20px; }
-    .esconder { display: none; }
-    .mostrar { display: block; }
-    .elemento { border: 1px solid #999; text-align: center; padding: 5px; background-color: #eee; font-size: 12px; }
-    .numero { font-size: 10px; }
-    #tabela-periodica { display: grid; grid-template-columns: repeat(18, 50px); gap: 5px; }
-    #calculadora { max-width: 300px; }
-    #tela { width: 100%; height: 40px; font-size: 18px; margin-bottom: 10px; text-align: right; padding: 5px; }
-    .calc-btns { display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; }
-    .calc-btns button { padding: 15px; font-size: 18px; cursor: pointer; }
-    table { border-collapse: collapse; }
-    table th, table td { border: 1px solid #000; padding: 8px 12px; }
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      display: flex;
+      height: 100vh;
+    }
+    .menu {
+      width: 200px;
+      background: #333;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+    }
+    .menu button {
+      background: none;
+      border: none;
+      color: white;
+      padding: 15px;
+      font-size: 16px;
+      text-align: left;
+      cursor: pointer;
+      border-bottom: 1px solid #444;
+      transition: background 0.3s;
+    }
+    .menu button:hover {
+      background: #444;
+    }
+    .conteudo {
+      flex: 1;
+      padding: 20px;
+      overflow-y: auto;
+      background: #f9f9f9;
+    }
+    .esconder {
+      display: none;
+    }
+    .mostrar {
+      display: block;
+    }
+    /* === Tabela periódica === */
+    .tabela-periodica {
+      display: grid;
+      grid-template-columns: repeat(18, 50px);
+      grid-auto-rows: 70px;
+      gap: 3px;
+      justify-content: start;
+    }
+    .elemento {
+      border: 1px solid #555;
+      border-radius: 6px;
+      padding: 5px 2px 2px 2px;
+      text-align: center;
+      background: #f0f0f0;
+      font-size: 12px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      cursor: default;
+      user-select: none;
+    }
+    .numero {
+      font-size: 9px;
+      color: #666;
+      text-align: right;
+      margin-bottom: 2px;
+    }
+    .simbolo {
+      font-weight: bold;
+      font-size: 18px;
+      line-height: 18px;
+    }
+    .nome {
+      font-size: 10px;
+      margin-top: 2px;
+    }
+    /* Grupos (cores simples) */
+    .gas-nobre { background: #ffdede; }
+    .metal-alcalino { background: #ddeeff; }
+    .metal-alcalino-terroso { background: #ddffdd; }
+    .metal-de-transicao { background: #ffffdd; }
+    .semimetal { background: #ffddff; }
+    .nao-metal { background: #ddffff; }
+    .halogenio { background: #ffdddd; }
+    .lantanideos, .actinideos {
+      font-size: 10px;
+      padding: 2px 3px;
+      background: #eee;
+    }
+    /* Cadernos */
+    .caderno-container {
+      max-width: 700px;
+      margin: auto;
+    }
+    .caderno-buttons {
+      margin-bottom: 15px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .caderno-buttons button {
+      padding: 8px 12px;
+      font-size: 14px;
+      cursor: pointer;
+      border: 1px solid #333;
+      background: #ddd;
+      border-radius: 4px;
+      transition: background 0.2s;
+    }
+    .caderno-buttons button:hover {
+      background: #ccc;
+    }
+    .caderno-paginas {
+      border: 1px solid #aaa;
+      background: white;
+      min-height: 350px;
+      padding: 10px;
+      border-radius: 6px;
+      box-shadow: 0 0 6px rgba(0,0,0,0.1);
+      display: flex;
+      flex-direction: column;
+    }
+    textarea {
+      flex: 1;
+      resize: none;
+      font-size: 16px;
+      padding: 10px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    .pagina-controles {
+      margin-top: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .pagina-controles button {
+      padding: 6px 10px;
+      font-size: 14px;
+      cursor: pointer;
+      border-radius: 4px;
+      border: 1px solid #333;
+      background: #eee;
+      transition: background 0.2s;
+    }
+    .pagina-controles button:hover {
+      background: #ddd;
+    }
+    .pagina-num {
+      font-size: 14px;
+      font-weight: bold;
+    }
   </style>
 </head>
 <body>
@@ -30,6 +167,7 @@
     <button onclick="mostrar('horarios')">Horários</button>
     <button onclick="mostrar('calculadora')">Calculadora</button>
     <button onclick="mostrar('emergencia')">Números de Emergência</button>
+    <button onclick="mostrar('cadernos')">Cadernos</button>
   </div>
 
   <div class="conteudo">
@@ -51,7 +189,7 @@
 
     <div id="tabela" class="esconder">
       <h1>Tabela Periódica</h1>
-      <div id="tabela-periodica"></div>
+      <div class="tabela-periodica" id="tabela-periodica"></div>
     </div>
 
     <div id="horarios" class="esconder">
@@ -68,7 +206,7 @@
     <div id="calculadora" class="esconder">
       <h1>Calculadora</h1>
       <input type="text" id="tela" disabled />
-      <div class="calc-btns">
+      <div class="calc-btns" style="display:grid;grid-template-columns:repeat(4,1fr);gap:5px;max-width:300px;">
         <button onclick="add('7')">7</button>
         <button onclick="add('8')">8</button>
         <button onclick="add('9')">9</button>
@@ -95,54 +233,304 @@
         <li><strong>190</strong> - Polícia Militar</li>
         <li><strong>192</strong> - SAMU (Serviço de Atendimento Móvel de Urgência)</li>
         <li><strong>193</strong> - Corpo de Bombeiros</li>
+        <li><strong>181</strong> - Disque Denúncia</li>
+        <li><strong>192</strong> - Atendimento médico de urgência</li>
       </ul>
     </div>
 
-    <script>
-      function mostrar(id) {
-        ['feriados', 'tabela', 'horarios', 'calculadora', 'emergencia'].forEach(sec => {
-          document.getElementById(sec).className = sec === id ? 'mostrar' : 'esconder';
-        });
-      }
-      function add(val) { document.getElementById('tela').value += val; }
-      function limpar() { document.getElementById('tela').value = ''; }
-      function calcular() {
-        try { document.getElementById('tela').value = eval(document.getElementById('tela').value); }
-        catch { document.getElementById('tela').value = 'Erro'; }
-      }
-
-      const simbolos = [
-        "H", "He", "Li", "Be", "B", "C", "N", "O", "F", "Ne", "Na", "Mg", "Al", "Si", "P", "S", "Cl", "Ar",
-        "K", "Ca", "Sc", "Ti", "V", "Cr", "Mn", "Fe", "Co", "Ni", "Cu", "Zn", "Ga", "Ge", "As", "Se", "Br", "Kr",
-        "Rb", "Sr", "Y", "Zr", "Nb", "Mo", "Tc", "Ru", "Rh", "Pd", "Ag", "Cd", "In", "Sn", "Sb", "Te", "I", "Xe",
-        "Cs", "Ba", "La", "Ce", "Pr", "Nd", "Pm", "Sm", "Eu", "Gd", "Tb", "Dy", "Ho", "Er", "Tm", "Yb", "Lu",
-        "Hf", "Ta", "W", "Re", "Os", "Ir", "Pt", "Au", "Hg", "Tl", "Pb", "Bi", "Po", "At", "Rn", "Fr", "Ra",
-        "Ac", "Th", "Pa", "U", "Np", "Pu", "Am", "Cm", "Bk", "Cf", "Es", "Fm", "Md", "No", "Lr", "Rf", "Db", "Sg",
-        "Bh", "Hs", "Mt", "Ds", "Rg", "Cn", "Nh", "Fl", "Mc", "Lv", "Ts", "Og"
-      ];
-      const nomes = [
-        "Hidrogênio", "Hélio", "Lítio", "Berílio", "Boro", "Carbono", "Nitrogênio", "Oxigênio", "Flúor", "Neônio", "Sódio",
-        "Magnésio", "Alumínio", "Silício", "Fósforo", "Enxofre", "Cloro", "Argônio", "Potássio", "Cálcio", "Escândio",
-        "Titânio", "Vanádio", "Cromo", "Manganês", "Ferro", "Cobalto", "Níquel", "Cobre", "Zinco", "Gálio", "Germânio",
-        "Arsênio", "Selênio", "Bromo", "Criptônio", "Rubídio", "Estrôncio", "Ítrio", "Zircônio", "Nióbio", "Molibdênio",
-        "Tecnécio", "Rutênio", "Ródio", "Paládio", "Prata", "Cádmio", "Índio", "Estanho", "Antimônio", "Telúrio", "Iodo",
-        "Xenônio", "Césio", "Bário", "Lantânio", "Cério", "Praseodímio", "Neodímio", "Promécio", "Samário", "Európio",
-        "Gadolínio", "Térbio", "Disprósio", "Hólmio", "Érbio", "Túlio", "Itérbio", "Lutécio", "Háfnio", "Tântalo",
-        "Tungstênio", "Rênio", "Ósmio", "Irídio", "Platina", "Ouro", "Mercúrio", "Tálio", "Chumbo", "Bismuto", "Polônio",
-        "Astato", "Radônio", "Frâncio", "Rádio", "Actínio", "Tório", "Protactínio", "Urânio", "Neptúnio", "Plutônio",
-        "Amerício", "Cúrio", "Berquélio", "Califórnio", "Einstênio", "Férmio", "Mendelévio", "Nobélio", "Laurêncio",
-        "Rutherfórdio", "Dúbnio", "Seabórgio", "Bóhrio", "Hássio", "Meitnério", "Darmstádio", "Roentgênio", "Copernício",
-        "Nihônio", "Fleróvio", "Moscóvio", "Livermório", "Tenessino", "Oganessônio"
-      ];
-      const tabela = document.getElementById("tabela-periodica");
-      for (let i = 0; i < 118; i++) {
-        const div = document.createElement("div");
-        div.className = "elemento";
-        div.innerHTML = `<div class="numero">${i+1}</div><div><strong>${simbolos[i]}</strong></div><div>${nomes[i]}</div>`;
-        tabela.appendChild(div);
-      }
-    </script>
+    <div id="cadernos" class="esconder">
+      <h1>Cadernos</h1>
+      <div class="caderno-container">
+        <div class="caderno-buttons" id="materias-buttons">
+          <!-- Botões de matérias gerados por JS -->
+        </div>
+        <div class="caderno-paginas">
+          <textarea id="nota-texto" placeholder="Escreva suas notas aqui..."></textarea>
+          <div class="pagina-controles">
+            <button id="btn-prev">Página Anterior</button>
+            <div class="pagina-num" id="pagina-num">Página 1</div>
+            <button id="btn-next">Próxima Página</button>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
+
+<script>
+  // Menu troca de conteúdo
+  function mostrar(id) {
+    const todos = document.querySelectorAll('.conteudo > div');
+    todos.forEach(div => {
+      if(div.id === id) {
+        div.classList.remove('esconder');
+        div.classList.add('mostrar');
+      } else {
+        div.classList.add('esconder');
+        div.classList.remove('mostrar');
+      }
+    });
+  }
+
+  // Calculadora
+  const tela = document.getElementById('tela');
+  function add(valor) {
+    tela.value += valor;
+  }
+  function limpar() {
+    tela.value = '';
+  }
+  function calcular() {
+    try {
+      tela.value = eval(tela.value);
+    } catch {
+      alert('Expressão inválida');
+    }
+  }
+
+  // --- CADERNOS ---
+  const materias = [
+    "Ciências",
+    "Português",
+    "História",
+    "Geografia",
+    "Reforço de Português",
+    "Ed. Física"
+  ];
+
+  // Criar botões de matérias
+  const materiasButtons = document.getElementById('materias-buttons');
+  materias.forEach((mat, i) => {
+    const btn = document.createElement('button');
+    btn.textContent = mat;
+    btn.onclick = () => selecionarMateria(i);
+    materiasButtons.appendChild(btn);
+  });
+
+  let materiaAtual = 0;
+  let paginaAtual = 0;
+  let notas = {}; // estrutura: { materiaIndex: [stringPagina1, stringPagina2, ...] }
+
+  // Carrega notas do localStorage
+  function carregarNotas() {
+    const dados = localStorage.getItem('notasCadernos');
+    if (dados) {
+      notas = JSON.parse(dados);
+    } else {
+      notas = {};
+    }
+  }
+
+  // Salva notas no localStorage
+  function salvarNotas() {
+    localStorage.setItem('notasCadernos', JSON.stringify(notas));
+  }
+
+  // Atualiza textarea com conteúdo da página atual
+  const textarea = document.getElementById('nota-texto');
+  const paginaNum = document.getElementById('pagina-num');
+  function atualizarTexto() {
+    if (!notas[materiaAtual]) notas[materiaAtual] = [];
+    if (!notas[materiaAtual][paginaAtual]) notas[materiaAtual][paginaAtual] = "";
+    textarea.value = notas[materiaAtual][paginaAtual];
+    paginaNum.textContent = `Página ${paginaAtual + 1}`;
+  }
+
+  // Selecionar matéria
+  function selecionarMateria(i) {
+    // Salvar a página atual antes de mudar
+    salvarPaginaAtual();
+    materiaAtual = i;
+    paginaAtual = 0;
+    atualizarTexto();
+  }
+
+  // Salvar conteúdo atual no objeto
+  function salvarPaginaAtual() {
+    if (!notas[materiaAtual]) notas[materiaAtual] = [];
+    notas[materiaAtual][paginaAtual] = textarea.value;
+    salvarNotas();
+  }
+
+  // Botões próximo e anterior
+  document.getElementById('btn-prev').onclick = () => {
+    salvarPaginaAtual();
+    if (paginaAtual > 0) {
+      paginaAtual--;
+      atualizarTexto();
+    }
+  }
+  document.getElementById('btn-next').onclick = () => {
+    salvarPaginaAtual();
+    if (!notas[materiaAtual]) notas[materiaAtual] = [];
+    paginaAtual++;
+    if (!notas[materiaAtual][paginaAtual]) notas[materiaAtual][paginaAtual] = "";
+    atualizarTexto();
+  }
+
+  // Atualiza notas quando o usuário digita
+  textarea.addEventListener('input', () => {
+    notas[materiaAtual][paginaAtual] = textarea.value;
+    salvarNotas();
+  });
+
+  // Inicializa
+  carregarNotas();
+  selecionarMateria(0);
+
+  // --- TABELA PERIÓDICA ---
+  const elementos = [
+    // [número, símbolo, nome, grupo CSS, coluna, linha]
+    [1, "H", "Hidrogênio", "metal-alcalino", 1, 1],
+    [2, "He", "Hélio", "gas-nobre", 18, 1],
+    [3, "Li", "Lítio", "metal-alcalino", 1, 2],
+    [4, "Be", "Berílio", "metal-alcalino-terroso", 2, 2],
+    [5, "B", "Boro", "semimetal", 13, 2],
+    [6, "C", "Carbono", "nao-metal", 14, 2],
+    [7, "N", "Nitrogênio", "nao-metal", 15, 2],
+    [8, "O", "Oxigênio", "nao-metal", 16, 2],
+    [9, "F", "Flúor", "halogenio", 17, 2],
+    [10, "Ne", "Neônio", "gas-nobre", 18, 2],
+
+    [11, "Na", "Sódio", "metal-alcalino", 1, 3],
+    [12, "Mg", "Magnésio", "metal-alcalino-terroso", 2, 3],
+    [13, "Al", "Alumínio", "metal-de-transicao", 13, 3],
+    [14, "Si", "Silício", "semimetal", 14, 3],
+    [15, "P", "Fósforo", "nao-metal", 15, 3],
+    [16, "S", "Enxofre", "nao-metal", 16, 3],
+    [17, "Cl", "Cloro", "halogenio", 17, 3],
+    [18, "Ar", "Argônio", "gas-nobre", 18, 3],
+
+    [19, "K", "Potássio", "metal-alcalino", 1, 4],
+    [20, "Ca", "Cálcio", "metal-alcalino-terroso", 2, 4],
+    [21, "Sc", "Escândio", "metal-de-transicao", 3, 4],
+    [22, "Ti", "Titânio", "metal-de-transicao", 4, 4],
+    [23, "V", "Vanádio", "metal-de-transicao", 5, 4],
+    [24, "Cr", "Cromo", "metal-de-transicao", 6, 4],
+    [25, "Mn", "Manganês", "metal-de-transicao", 7, 4],
+    [26, "Fe", "Ferro", "metal-de-transicao", 8, 4],
+    [27, "Co", "Cobalto", "metal-de-transicao", 9, 4],
+    [28, "Ni", "Níquel", "metal-de-transicao", 10, 4],
+    [29, "Cu", "Cobre", "metal-de-transicao", 11, 4],
+    [30, "Zn", "Zinco", "metal-de-transicao", 12, 4],
+    [31, "Ga", "Gálio", "metal-de-transicao", 13, 4],
+    [32, "Ge", "Germânio", "semimetal", 14, 4],
+    [33, "As", "Arsênio", "semimetal", 15, 4],
+    [34, "Se", "Selênio", "nao-metal", 16, 4],
+    [35, "Br", "Bromo", "halogenio", 17, 4],
+    [36, "Kr", "Criptônio", "gas-nobre", 18, 4],
+
+    [37, "Rb", "Rubídio", "metal-alcalino", 1, 5],
+    [38, "Sr", "Estrôncio", "metal-alcalino-terroso", 2, 5],
+    [39, "Y", "Ítrio", "metal-de-transicao", 3, 5],
+    [40, "Zr", "Zircônio", "metal-de-transicao", 4, 5],
+    [41, "Nb", "Nióbio", "metal-de-transicao", 5, 5],
+    [42, "Mo", "Molibdênio", "metal-de-transicao", 6, 5],
+    [43, "Tc", "Tecnécio", "metal-de-transicao", 7, 5],
+    [44, "Ru", "Rutênio", "metal-de-transicao", 8, 5],
+    [45, "Rh", "Ródio", "metal-de-transicao", 9, 5],
+    [46, "Pd", "Paládio", "metal-de-transicao", 10, 5],
+    [47, "Ag", "Prata", "metal-de-transicao", 11, 5],
+    [48, "Cd", "Cádmio", "metal-de-transicao", 12, 5],
+    [49, "In", "Índio", "metal-de-transicao", 13, 5],
+    [50, "Sn", "Estanho", "metal-de-transicao", 14, 5],
+    [51, "Sb", "Antimônio", "semimetal", 15, 5],
+    [52, "Te", "Telúrio", "semimetal", 16, 5],
+    [53, "I", "Iodo", "halogenio", 17, 5],
+    [54, "Xe", "Xenônio", "gas-nobre", 18, 5],
+
+    [55, "Cs", "Césio", "metal-alcalino", 1, 6],
+    [56, "Ba", "Bário", "metal-alcalino-terroso", 2, 6],
+    // Lantanídeos — linha especial
+    [57, "La", "Lantânio", "lantanideos", 4, 9],
+    [58, "Ce", "Cério", "lantanideos", 5, 9],
+    [59, "Pr", "Praseodímio", "lantanideos", 6, 9],
+    [60, "Nd", "Neodímio", "lantanideos", 7, 9],
+    [61, "Pm", "Promécio", "lantanideos", 8, 9],
+    [62, "Sm", "Samário", "lantanideos", 9, 9],
+    [63, "Eu", "Európio", "lantanideos", 10, 9],
+    [64, "Gd", "Gadolínio", "lantanideos", 11, 9],
+    [65, "Tb", "Térbio", "lantanideos", 12, 9],
+    [66, "Dy", "Disprósio", "lantanideos", 13, 9],
+    [67, "Ho", "Hólmio", "lantanideos", 14, 9],
+    [68, "Er", "Érbio", "lantanideos", 15, 9],
+    [69, "Tm", "Túlio", "lantanideos", 16, 9],
+    [70, "Yb", "Itérbio", "lantanideos", 17, 9],
+    [71, "Lu", "Lutécio", "lantanideos", 18, 9],
+
+    [72, "Hf", "Háfnio", "metal-de-transicao", 4, 6],
+    [73, "Ta", "Tântalo", "metal-de-transicao", 5, 6],
+    [74, "W", "Tungstênio", "metal-de-transicao", 6, 6],
+    [75, "Re", "Rênio", "metal-de-transicao", 7, 6],
+    [76, "Os", "Ósmio", "metal-de-transicao", 8, 6],
+    [77, "Ir", "Irídio", "metal-de-transicao", 9, 6],
+    [78, "Pt", "Platina", "metal-de-transicao", 10, 6],
+    [79, "Au", "Ouro", "metal-de-transicao", 11, 6],
+    [80, "Hg", "Mercúrio", "metal-de-transicao", 12, 6],
+    [81, "Tl", "Tálio", "metal-de-transicao", 13, 6],
+    [82, "Pb", "Chumbo", "metal-de-transicao", 14, 6],
+    [83, "Bi", "Bismuto", "metal-de-transicao", 15, 6],
+    [84, "Po", "Polônio", "metal-de-transicao", 16, 6],
+    [85, "At", "Astato", "halogenio", 17, 6],
+    [86, "Rn", "Radônio", "gas-nobre", 18, 6],
+
+    [87, "Fr", "Frâncio", "metal-alcalino", 1, 7],
+    [88, "Ra", "Rádio", "metal-alcalino-terroso", 2, 7],
+    // Actinídeos — linha especial
+    [89, "Ac", "Actínio", "actinideos", 4, 10],
+    [90, "Th", "Tório", "actinideos", 5, 10],
+    [91, "Pa", "Protactínio", "actinideos", 6, 10],
+    [92, "U", "Urânio", "actinideos", 7, 10],
+    [93, "Np", "Netúnio", "actinideos", 8, 10],
+    [94, "Pu", "Plutônio", "actinideos", 9, 10],
+    [95, "Am", "Amerício", "actinideos", 10, 10],
+    [96, "Cm", "Cúrio", "actinideos", 11, 10],
+    [97, "Bk", "Berkélio", "actinideos", 12, 10],
+    [98, "Cf", "Califórnio", "actinideos", 13, 10],
+    [99, "Es", "Einstênio", "actinideos", 14, 10],
+    [100, "Fm", "Férmio", "actinideos", 15, 10],
+    [101, "Md", "Mendelévio", "actinideos", 16, 10],
+    [102, "No", "Nobélio", "actinideos", 17, 10],
+    [103, "Lr", "Laurêncio", "actinideos", 18, 10],
+
+    [104, "Rf", "Rutherfórdio", "metal-de-transicao", 4, 7],
+    [105, "Db", "Dúbnio", "metal-de-transicao", 5, 7],
+    [106, "Sg", "Seabórgio", "metal-de-transicao", 6, 7],
+    [107, "Bh", "Bóhrio", "metal-de-transicao", 7, 7],
+    [108, "Hs", "Hássio", "metal-de-transicao", 8, 7],
+    [109, "Mt", "Meitnério", "metal-de-transicao", 9, 7],
+    [110, "Ds", "Darmstádio", "metal-de-transicao", 10, 7],
+    [111, "Rg", "Roentgênio", "metal-de-transicao", 11, 7],
+    [112, "Cn", "Copernício", "metal-de-transicao", 12, 7],
+    [113, "Nh", "Nihônio", "metal-de-transicao", 13, 7],
+    [114, "Fl", "Fleróvio", "metal-de-transicao", 14, 7],
+    [115, "Mc", "Moscóvio", "metal-de-transicao", 15, 7],
+    [116, "Lv", "Livermório", "metal-de-transicao", 16, 7],
+    [117, "Ts", "Tenessino", "halogenio", 17, 7],
+    [118, "Og", "Oganessônio", "gas-nobre", 18, 7]
+  ];
+
+  const tabelaPeriodica = document.getElementById('tabela-periodica');
+
+  // Função para criar os elementos na tabela periódica
+  function criarTabela() {
+    elementos.forEach(el => {
+      const [num, simbolo, nome, grupo, col, linha] = el;
+      const celula = document.createElement('div');
+      celula.classList.add('elemento', grupo);
+      celula.style.gridColumnStart = col;
+      celula.style.gridRowStart = linha;
+
+      celula.innerHTML = `
+        <div class="num">${num}</div>
+        <div class="simbolo">${simbolo}</div>
+        <div class="nome">${nome}</div>
+      `;
+      tabelaPeriodica.appendChild(celula);
+    });
+  }
+
+  criarTabela();
+</script>
+
 </body>
 </html>
-
